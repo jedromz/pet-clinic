@@ -30,7 +30,7 @@ public class Visit {
 
     @Version
     private int version;
-    
+
     @Builder
     public Visit(LocalDateTime dateTime, Vet vet, Pet pet) {
         this.dateTime = dateTime;
