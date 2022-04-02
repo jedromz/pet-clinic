@@ -5,6 +5,7 @@ import com.jedromz.petclinic.model.Pet;
 import com.jedromz.petclinic.model.command.CreatePetCommand;
 import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.model.dto.PetDto;
+import com.jedromz.petclinic.model.dto.VisitDto;
 import com.jedromz.petclinic.service.PetService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -53,11 +55,21 @@ public class PetController {
     }
 
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<PetDto> editpet(@PathVariable long id, @RequestBody UpdatePetCommand command) {
+    public ResponseEntity<PetDto> editPet(@PathVariable long id, @RequestBody UpdatePetCommand command) {
         Pet toEdit = petService.findById(id).orElseThrow(() -> new EntityNotFoundException("Pet", Long.toString(id)));
         Pet edited = petService.edit(toEdit, command);
         return new ResponseEntity(modelMapper.map(edited, PetDto.class), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/visits")
+    public ResponseEntity<List<VisitDto>> getPetVisits(@PathVariable Long id) {
+        return ResponseEntity.ok(petService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pet", Long.toString(id)))
+                .getVisits()
+                .stream()
+                .map(visit -> modelMapper.map(visit, VisitDto.class))
+                .toList());
+    }
 }

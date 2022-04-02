@@ -1,13 +1,10 @@
 package com.jedromz.petclinic.model.command;
 
-import com.jedromz.petclinic.model.Visit;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -22,4 +19,5 @@ public class CreateVetCommand {
     private BigDecimal rate;
     private String nip;
     private int version;
+    private boolean isFired;
 }

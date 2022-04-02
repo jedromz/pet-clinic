@@ -1,5 +1,6 @@
 package com.jedromz.petclinic.mappings;
 
+import com.jedromz.petclinic.controller.PetController;
 import com.jedromz.petclinic.model.Pet;
 import com.jedromz.petclinic.model.dto.PetDto;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,8 @@ public class PetToPetDtoConverter implements Converter<Pet, PetDto> {
                 .ownerName(pet.getOwnerName())
                 .version(pet.getVersion())
                 .build();
+        petDto.add(linkTo(methodOn(PetController.class).getPet(pet.getId())).withRel("pet-details"));
+        petDto.add(linkTo(methodOn(PetController.class).getPetVisits(pet.getId())).withRel("pet-visits"));
         return petDto;
     }
 }

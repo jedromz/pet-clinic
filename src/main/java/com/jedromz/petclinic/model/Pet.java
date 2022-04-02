@@ -4,11 +4,13 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
+@EqualsAndHashCode(exclude = {"visits"})
 @NoArgsConstructor
 public class Pet {
 
@@ -21,8 +23,8 @@ public class Pet {
     private LocalDate birthDate;
     private String ownerName;
     private String ownerEmail;
-    @OneToMany(mappedBy = "pet", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Visit> visits;
+    @OneToMany(mappedBy = "pet", cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE })
+    private Set<Visit> visits = new HashSet<>();
 
     @Version
     private int version;

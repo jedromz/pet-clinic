@@ -18,4 +18,5 @@ public class UpdateVetCommand {
     private BigDecimal rate;
     private String nip;
     private int version;
+    private boolean isFired;
 }

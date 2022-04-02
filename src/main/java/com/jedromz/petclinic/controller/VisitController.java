@@ -21,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/visit")
+@RequestMapping("/visits")
 @RequiredArgsConstructor
 public class VisitController {
 

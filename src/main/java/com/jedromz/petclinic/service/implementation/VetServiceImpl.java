@@ -59,5 +59,11 @@ public class VetServiceImpl implements VetService {
         return vetRepository.save(toEdit);
     }
 
+    @Override
+    public Vet fire(Vet toFire) {
+        toFire.setFired(true);
+        return vetRepository.saveAndFlush(toFire);
+    }
+
 
 }

@@ -21,4 +21,6 @@ public interface VetService {
     void deleteById(Long id);
 
     Vet edit(Vet toEdit, UpdateVetCommand updateVetCommand);
+
+    Vet fire(Vet toEdit);
 }

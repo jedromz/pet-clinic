@@ -10,6 +10,7 @@ import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.model.command.UpdateVetCommand;
 import com.jedromz.petclinic.model.dto.PetDto;
 import com.jedromz.petclinic.model.dto.VetDto;
+import com.jedromz.petclinic.model.dto.VisitDto;
 import com.jedromz.petclinic.service.VetService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,6 +20,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/vets")
@@ -59,6 +62,23 @@ public class VetController {
     public ResponseEntity<VetDto> editVet(@PathVariable long id, @RequestBody UpdateVetCommand command) {
         Vet toEdit = vetService.findById(id).orElseThrow(() -> new EntityNotFoundException("Vet", Long.toString(id)));
         Vet edited = vetService.edit(toEdit, command);
+        return new ResponseEntity(modelMapper.map(edited, VetDto.class), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/visits")
+    public ResponseEntity<List<VisitDto>> getVetVisits(Long id) {
+        return ResponseEntity.ok(vetService.findById(id).orElseThrow(() -> new EntityNotFoundException("Vet", Long.toString(id)))
+                .getVisits()
+                .stream()
+                .map(visit -> modelMapper.map(visit, VisitDto.class))
+                .toList());
+    }
+
+
+    @PutMapping("/{id}/fire")
+    public ResponseEntity<VetDto> fireVet(@PathVariable long id) {
+        Vet toFire = vetService.findById(id).orElseThrow(() -> new EntityNotFoundException("Vet", Long.toString(id)));
+        Vet edited = vetService.fire(toFire);
         return new ResponseEntity(modelMapper.map(edited, VetDto.class), HttpStatus.OK);
     }
 }
