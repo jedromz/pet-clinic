@@ -1,20 +1,24 @@
 package com.jedromz.petclinic.service;
-//W przychodni powinno byc API dla pacjentow
-// - dodanie pacjenta
-// - pobranie danych pacjenta po id
-// - pobranie wszystkich pacjentow (z paginacja)
 
-import com.jedromz.petclinic.repository.VetRepository;
-import lombok.RequiredArgsConstructor;
+import com.jedromz.petclinic.model.Pet;
+import com.jedromz.petclinic.model.Vet;
+import com.jedromz.petclinic.model.command.UpdatePetCommand;
+import com.jedromz.petclinic.model.command.UpdateVetCommand;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
-@RequiredArgsConstructor
-public class VetService {
+import java.util.Optional;
 
-    private final VetRepository vetRepository;
+public interface VetService {
 
+    Page<Vet> findAll(Pageable pageable);
 
+    Optional<Vet> findById(Long id);
+
+    Vet save(Vet vet);
+
+    void deleteById(Long id);
+
+    Vet edit(Vet toEdit, UpdateVetCommand updateVetCommand);
 }

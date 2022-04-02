@@ -15,6 +15,8 @@ import java.util.Set;
 @NoArgsConstructor
 public class Visit {
 
+    private static final int TIME_IN_HOURS = 1;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,9 +27,6 @@ public class Visit {
     @ManyToOne
     @JoinColumn(name = "pet_id")
     private Pet pet;
-    @OneToMany(mappedBy = "pet", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Set<Visit> visits;
-
     @Version
     private int version;
 
@@ -36,5 +35,7 @@ public class Visit {
         this.dateTime = dateTime;
         this.vet = vet;
         this.pet = pet;
+        vet.getVisits().add(this);
+        pet.getVisits().add(this);
     }
 }

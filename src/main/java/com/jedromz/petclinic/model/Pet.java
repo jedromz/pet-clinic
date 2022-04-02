@@ -16,7 +16,7 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String petName;
-    private String species;
+    private String type;
     private String race;
     private LocalDate birthDate;
     private String ownerName;
@@ -28,9 +28,9 @@ public class Pet {
     private int version;
 
     @Builder
-    public Pet(String petName, String species, String race, LocalDate birthDate, String ownerName, String ownerEmail) {
+    public Pet(String petName, String type, String race, LocalDate birthDate, String ownerName, String ownerEmail) {
         this.petName = petName;
-        this.species = species;
+        this.type = type;
         this.race = race;
         this.birthDate = birthDate;
         this.ownerName = ownerName;
