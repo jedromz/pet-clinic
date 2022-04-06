@@ -66,7 +66,7 @@ public class VisitController {
         VisitToken visitToken = visitTokenService.findByToken(token)
                 .orElseThrow(() -> new EntityNotFoundException("VisitToken", token));
         visitService.confirmVisit(visitToken);
-        return new ResponseEntity("Visit confirmed successfully!", HttpStatus.OK);
+        return new ResponseEntity("Visit confirmed successfully", HttpStatus.OK);
     }
 
     @GetMapping("/cancel/{token}")
