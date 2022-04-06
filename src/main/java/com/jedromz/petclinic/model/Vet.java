@@ -3,7 +3,6 @@ package com.jedromz.petclinic.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;

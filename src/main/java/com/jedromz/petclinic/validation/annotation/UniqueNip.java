@@ -1,5 +1,7 @@
 package com.jedromz.petclinic.validation.annotation;
+
 import com.jedromz.petclinic.validation.implementation.UniqueNipValidator;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;

@@ -1,10 +1,8 @@
 package com.jedromz.petclinic.mappings;
 
-import com.jedromz.petclinic.controller.PetController;
 import com.jedromz.petclinic.controller.VetController;
 import com.jedromz.petclinic.model.Vet;
 import com.jedromz.petclinic.model.dto.VetDto;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Service;

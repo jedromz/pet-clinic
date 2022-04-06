@@ -8,7 +8,6 @@ import com.jedromz.petclinic.model.Vet;
 import com.jedromz.petclinic.model.command.CreatePetCommand;
 import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.service.VetService;
-import com.jedromz.petclinic.service.implementation.PetServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,9 +26,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -93,11 +91,10 @@ class VetControllerTest {
         assertEquals(savedVet.getRate(), resultVet.getRate());
 
     }
-//
 //    @Test
 //    void shouldNotGetPetWithBadId() throws Exception {
 //        long badId = 1L;
-//        postman.perform(get("/products/{id}", badId))
+//        postman.perform(get("/pets/{id}", badId))
 //                .andExpect(status().isNotFound())
 //                .andReturn()
 //                .getResponse().getErrorMessage();

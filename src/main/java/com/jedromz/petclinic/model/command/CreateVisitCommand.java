@@ -24,6 +24,4 @@ public class CreateVisitCommand {
     private Long vetId;
     @NotNull(message = "PET_ID_NOT_NULL")
     private Long petId;
-    @NotEmpty(message = "VERSION_NOT_EMPTY")
-    private int version;
 }

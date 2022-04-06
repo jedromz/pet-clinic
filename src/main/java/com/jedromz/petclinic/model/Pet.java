@@ -44,7 +44,6 @@ public class Pet {
         this.ownerEmail = ownerEmail;
     }
 
-
     public boolean isAppointed(LocalDateTime dateTime) {
         return getVisits().stream()
                 .map(Visit::getDateTime)

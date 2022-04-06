@@ -1,14 +1,9 @@
 package com.jedromz.petclinic.controller;
 
 import com.jedromz.petclinic.error.EntityNotFoundException;
-import com.jedromz.petclinic.model.Pet;
 import com.jedromz.petclinic.model.Vet;
-import com.jedromz.petclinic.model.Visit;
-import com.jedromz.petclinic.model.command.CreatePetCommand;
 import com.jedromz.petclinic.model.command.CreateVetCommand;
-import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.model.command.UpdateVetCommand;
-import com.jedromz.petclinic.model.dto.PetDto;
 import com.jedromz.petclinic.model.dto.VetDto;
 import com.jedromz.petclinic.model.dto.VisitDto;
 import com.jedromz.petclinic.service.VetService;
@@ -47,7 +42,7 @@ public class VetController {
     }
 
     @PostMapping()
-    public ResponseEntity<Vet> saveVet(@RequestBody CreateVetCommand command) {
+    public ResponseEntity<Vet> saveVet(@RequestBody @Valid CreateVetCommand command) {
         Vet vet = vetService.save(modelMapper.map(command, Vet.class));
         return new ResponseEntity(modelMapper.map(vet, VetDto.class), HttpStatus.CREATED);
     }
@@ -60,7 +55,7 @@ public class VetController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<VetDto> editVet(@PathVariable long id, @RequestBody UpdateVetCommand command) {
+    public ResponseEntity<VetDto> editVet(@PathVariable long id, @RequestBody @Valid UpdateVetCommand command) {
         Vet toEdit = vetService.findById(id).orElseThrow(() -> new EntityNotFoundException("Vet", Long.toString(id)));
         Vet edited = vetService.edit(toEdit, command);
         return new ResponseEntity(modelMapper.map(edited, VetDto.class), HttpStatus.OK);

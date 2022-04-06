@@ -4,9 +4,7 @@ package com.jedromz.petclinic.service.implementation;
 // - pobranie danych pacjenta po id
 // - pobranie wszystkich pacjentow (z paginacja)
 
-import com.jedromz.petclinic.model.Pet;
 import com.jedromz.petclinic.model.Vet;
-import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.model.command.UpdateVetCommand;
 import com.jedromz.petclinic.repository.VetRepository;
 import com.jedromz.petclinic.service.VetService;

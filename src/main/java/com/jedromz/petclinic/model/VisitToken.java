@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.AUTO;
 
 @Data
