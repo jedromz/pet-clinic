@@ -1,5 +1,7 @@
 package com.jedromz.petclinic.service.implementation;
 
+import com.jedromz.petclinic.error.BadDateException;
+import com.jedromz.petclinic.error.EntityNotFoundException;
 import com.jedromz.petclinic.model.NotificationEmail;
 import com.jedromz.petclinic.model.Visit;
 import com.jedromz.petclinic.model.VisitToken;
@@ -45,10 +47,7 @@ public class VisitServiceImpl implements VisitService {
     public Visit save(Visit visit) {
         Visit savedVisit = visitRepository.saveAndFlush(visit);
         VisitToken visitToken = generateVerificationToken(visit);
-        mailService.sendMail(new NotificationEmail("pet-clinic@info.com", "Visit confirmation",
-                visit.getPet().getOwnerEmail(),
-                "Thank you for signing up for a visit, please click the link below to confirm:" +
-                        "http://localhost:8080/api/visits/confirm/" + visitToken.getToken()));
+        mailService.sendMail(new NotificationEmail("pet-clinic@info.com", "Visit confirmation", visit.getPet().getOwnerEmail(), "Thank you for signing up for a visit, please click the link below to confirm:" + "http://localhost:8080/api/visits/confirm/" + visitToken.getToken()));
 
         return savedVisit;
     }
@@ -70,6 +69,9 @@ public class VisitServiceImpl implements VisitService {
     @Transactional
     public Visit confirmVisit(VisitToken visitToken) {
         Visit visit = visitToken.getVisit();
+        if (visit.getDateTime().isAfter(LocalDateTime.now())) {
+            throw new BadDateException("Visit", "datetime");
+        }
         visit.setConfirmed(true);
         return visitRepository.saveAndFlush(visit);
     }
@@ -77,8 +79,11 @@ public class VisitServiceImpl implements VisitService {
     @Transactional
     public void cancelVisit(VisitToken visitToken) {
         Long visitId = visitToken.getVisit().getId();
-        visitRepository.findById(visitId)
-                .ifPresent(visitRepository::delete);
+        Visit visit = visitRepository.findById(visitId).orElseThrow(() -> new EntityNotFoundException("Visit", Long.toString(visitId)));
+        if (visit.getDateTime().isBefore(LocalDateTime.now())) {
+            throw new BadDateException("Visit", "dateTime");
+        }
+        visitRepository.delete(visit);
     }
 
     @Transactional
@@ -92,13 +97,9 @@ public class VisitServiceImpl implements VisitService {
 
     @Scheduled(cron = "00 00 23 * * *")
     public void nextDayVisitNotification() {
-        List<Visit> tomorrowVisits = visitRepository.findAll().stream()
-                .filter(v -> v.getDateTime().toLocalDate().equals(LocalDate.now().plusDays(1)))
-                .toList();
+        List<Visit> tomorrowVisits = visitRepository.findAll().stream().filter(v -> v.getDateTime().toLocalDate().equals(LocalDate.now().plusDays(1))).toList();
         for (Visit tomorrowVisit : tomorrowVisits) {
-            mailService.sendMail(new NotificationEmail("pet-clinic@info.com", "Visit reminder",
-                    tomorrowVisit.getPet().getOwnerEmail(),
-                    "Just a friendly reminder about your visit planned for tomorrow at: " + tomorrowVisit.getDateTime().toLocalTime()));
+            mailService.sendMail(new NotificationEmail("pet-clinic@info.com", "Visit reminder", tomorrowVisit.getPet().getOwnerEmail(), "Just a friendly reminder about your visit planned for tomorrow at: " + tomorrowVisit.getDateTime().toLocalTime()));
         }
     }
 }

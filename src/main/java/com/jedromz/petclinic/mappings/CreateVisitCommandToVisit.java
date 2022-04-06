@@ -3,7 +3,6 @@ package com.jedromz.petclinic.mappings;
 import com.jedromz.petclinic.error.EntityNotFoundException;
 import com.jedromz.petclinic.model.Visit;
 import com.jedromz.petclinic.model.command.CreateVisitCommand;
-import com.jedromz.petclinic.repository.PetRepository;
 import com.jedromz.petclinic.service.PetService;
 import com.jedromz.petclinic.service.VetService;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,6 @@
 package com.jedromz.petclinic.error;
 
 import lombok.Value;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 

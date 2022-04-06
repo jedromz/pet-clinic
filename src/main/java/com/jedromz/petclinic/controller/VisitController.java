@@ -1,15 +1,10 @@
 package com.jedromz.petclinic.controller;
 
 import com.jedromz.petclinic.error.EntityNotFoundException;
-import com.jedromz.petclinic.model.Pet;
-import com.jedromz.petclinic.model.Vet;
 import com.jedromz.petclinic.model.Visit;
 import com.jedromz.petclinic.model.VisitToken;
-import com.jedromz.petclinic.model.command.CreateVetCommand;
 import com.jedromz.petclinic.model.command.CreateVisitCommand;
-import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.model.command.UpdateVisitCommand;
-import com.jedromz.petclinic.model.dto.PetDto;
 import com.jedromz.petclinic.model.dto.VisitDto;
 import com.jedromz.petclinic.service.VisitService;
 import com.jedromz.petclinic.service.implementation.VisitTokenService;
@@ -21,6 +16,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/visits")
@@ -69,7 +66,7 @@ public class VisitController {
         VisitToken visitToken = visitTokenService.findByToken(token)
                 .orElseThrow(() -> new EntityNotFoundException("VisitToken", token));
         visitService.confirmVisit(visitToken);
-        return new ResponseEntity("Visit confirmed successfully", HttpStatus.OK);
+        return new ResponseEntity("Visit confirmed successfully!", HttpStatus.OK);
     }
 
     @GetMapping("/cancel/{token}")

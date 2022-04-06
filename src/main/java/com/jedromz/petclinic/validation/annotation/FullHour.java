@@ -1,7 +1,6 @@
 package com.jedromz.petclinic.validation.annotation;
 
 import com.jedromz.petclinic.validation.implementation.FullHourValidator;
-import com.jedromz.petclinic.validation.implementation.UniqueEmailValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -16,7 +15,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = FullHourValidator.class)
 public @interface FullHour {
 
-    String message() default "EMAIL_NOT_UNIQUE";
+    String message() default "HOUR_NOT_FULL";
 
     Class<?>[] groups() default {};
 
