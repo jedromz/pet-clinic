@@ -18,7 +18,7 @@ import java.util.Set;
 @Builder
 public class VetDto extends RepresentationModel<VetDto> {
 
-
+    private long id;
     private String firstName;
     private String lastName;
     private String specialization;

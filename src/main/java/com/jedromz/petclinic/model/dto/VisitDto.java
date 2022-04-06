@@ -14,5 +14,6 @@ public class VisitDto extends RepresentationModel<VisitDto> {
 
     private Long id;
     private LocalDateTime dateTime;
+    private boolean confirmed;
     private int version;
 }

@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Builder
 public class PetDto extends RepresentationModel<PetDto> {
 
+    private long id;
     private String petName;
     private String type;
     private String race;

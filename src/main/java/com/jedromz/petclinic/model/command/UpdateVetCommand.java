@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @Setter
 @Builder
 public class UpdateVetCommand {
-    private Long id;
     private String firstName;
     private String lastName;
     private String specialization;

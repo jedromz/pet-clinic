@@ -10,14 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
-/**
- * //W przychodni powinno byc API dla pacjentow
- * // dodanie pacjenta
- * // pobranie danych pacjenta po id
- * // pobranie wszystkich pacjentow (z paginacja)
- */
+
 @Service
 @RequiredArgsConstructor
 public class PetServiceImpl implements PetService {
@@ -56,8 +52,22 @@ public class PetServiceImpl implements PetService {
         toEdit.setRace(command.getRace());
         toEdit.setType(command.getType());
         toEdit.setVersion(command.getVersion());
-
         return petRepository.save(toEdit);
     }
+
+    @Transactional
+    public boolean existsByEmail(String email) {
+        return petRepository.existsByOwnerEmail(email);
+    }
+
+    @Transactional
+    public void savePets(List<Pet> pets) {
+        petRepository.saveAllAndFlush(pets);
+    }
+
+    public void deleteAll() {
+        petRepository.deleteAll();
+    }
+
 
 }

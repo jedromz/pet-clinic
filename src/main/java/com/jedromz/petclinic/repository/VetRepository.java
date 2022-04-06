@@ -10,4 +10,7 @@ public interface VetRepository extends JpaRepository<Vet, Long> {
 
     @Query("select v from Vet v left join fetch v.visits where v.id = ?1")
     Optional<Vet> findById(Long id);
+
+    @Query("select count(v)>0 from Vet v where v.nip = ?1")
+    boolean existsByNip(String nip);
 }

@@ -3,7 +3,10 @@ package com.jedromz.petclinic.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Past;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,10 +23,12 @@ public class Pet {
     private String petName;
     private String type;
     private String race;
+    @Past
     private LocalDate birthDate;
     private String ownerName;
+    @Email
     private String ownerEmail;
-    @OneToMany(mappedBy = "pet", cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE })
+    @OneToMany(mappedBy = "pet", cascade = {CascadeType.ALL})
     private Set<Visit> visits = new HashSet<>();
 
     @Version
@@ -37,5 +42,12 @@ public class Pet {
         this.birthDate = birthDate;
         this.ownerName = ownerName;
         this.ownerEmail = ownerEmail;
+    }
+
+
+    public boolean isAppointed(LocalDateTime dateTime) {
+        return getVisits().stream()
+                .map(Visit::getDateTime)
+                .anyMatch(visitTime -> visitTime.isEqual(dateTime));
     }
 }

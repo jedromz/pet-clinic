@@ -19,6 +19,7 @@ public class VisitToVisitDtoConverter implements Converter<Visit, VisitDto> {
         Visit visit = mappingContext.getSource();
         VisitDto visitDto = VisitDto.builder()
                 .id(visit.getId())
+                .confirmed(visit.isConfirmed())
                 .dateTime(visit.getDateTime())
                 .version(visit.getVersion())
                 .build();

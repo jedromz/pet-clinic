@@ -2,12 +2,17 @@ package com.jedromz.petclinic.controller;
 
 import com.jedromz.petclinic.error.EntityNotFoundException;
 import com.jedromz.petclinic.model.Pet;
+import com.jedromz.petclinic.model.Vet;
+import com.jedromz.petclinic.model.Visit;
 import com.jedromz.petclinic.model.command.CreatePetCommand;
 import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.model.dto.PetDto;
 import com.jedromz.petclinic.model.dto.VisitDto;
 import com.jedromz.petclinic.service.PetService;
+import com.jedromz.petclinic.service.VetService;
+import com.jedromz.petclinic.service.VisitService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +22,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -27,6 +35,7 @@ public class PetController {
 
     private final PetService petService;
     private final ModelMapper modelMapper;
+    private final VisitService visitService;
 
     @GetMapping("/{id}")
     public ResponseEntity<PetDto> getPet(@PathVariable long id) {
@@ -43,7 +52,7 @@ public class PetController {
     }
 
     @PostMapping()
-    public ResponseEntity<Pet> savePet(@RequestBody CreatePetCommand command) {
+    public ResponseEntity<Pet> savePet(@RequestBody @Valid CreatePetCommand command) {
         Pet pet = petService.save(modelMapper.map(command, Pet.class));
         return new ResponseEntity(modelMapper.map(pet, PetDto.class), HttpStatus.CREATED);
     }
@@ -53,7 +62,6 @@ public class PetController {
         petService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
 
 
     @PutMapping("/{id}")

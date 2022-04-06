@@ -65,5 +65,16 @@ public class VetServiceImpl implements VetService {
         return vetRepository.saveAndFlush(toFire);
     }
 
+    @Override
+    public boolean existsByNip(String nip) {
+        System.out.println(vetRepository.existsByNip(nip));
+        return vetRepository.existsByNip(nip);
+    }
+
+    @Override
+    public void deleteAll() {
+        vetRepository.deleteAll();
+    }
+
 
 }

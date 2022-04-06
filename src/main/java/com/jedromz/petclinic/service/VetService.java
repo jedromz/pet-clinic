@@ -23,4 +23,8 @@ public interface VetService {
     Vet edit(Vet toEdit, UpdateVetCommand updateVetCommand);
 
     Vet fire(Vet toEdit);
+
+    boolean existsByNip(String nip);
+
+    void deleteAll();
 }

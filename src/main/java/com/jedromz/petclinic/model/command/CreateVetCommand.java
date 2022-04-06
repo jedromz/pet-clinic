@@ -1,9 +1,14 @@
 package com.jedromz.petclinic.model.command;
 
+import com.jedromz.petclinic.validation.annotation.UniqueNip;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
 @Getter
@@ -11,13 +16,19 @@ import java.math.BigDecimal;
 @Builder
 public class CreateVetCommand {
 
-    private Long id;
+    @NotNull(message = "FIRSTNAME_NOT_NULL")
     private String firstName;
+    @NotNull(message = "LASTNAME_NOT_NULL")
     private String lastName;
+    @NotNull(message = "SPECIALIZATION_NOT_NULL")
     private String specialization;
+    @NotNull(message = "PET_SPECIALIZATION_NOT_NULL")
     private String petSpecialization;
+    @NotNull(message = "RATE_NOT_NULL")
     private BigDecimal rate;
+    @NotNull(message = "NIP_NOT_NULL")
+    @UniqueNip
+    @Size(min = 11,max = 11)
     private String nip;
-    private int version;
     private boolean isFired;
 }

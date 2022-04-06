@@ -19,6 +19,7 @@ public class PetToPetDtoConverter implements Converter<Pet, PetDto> {
     public PetDto convert(MappingContext<Pet, PetDto> mappingContext) {
         Pet pet = mappingContext.getSource();
         PetDto petDto = PetDto.builder()
+                .id(pet.getId())
                 .petName(pet.getPetName())
                 .type(pet.getType())
                 .race(pet.getRace())

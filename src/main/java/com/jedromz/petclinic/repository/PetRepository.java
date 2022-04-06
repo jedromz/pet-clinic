@@ -10,4 +10,7 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
 
     @Query("select p from Pet p left join fetch p.visits where p.id = ?1")
     Optional<Pet> findById(Long id);
+
+    boolean existsByOwnerEmail(String email);
+
 }

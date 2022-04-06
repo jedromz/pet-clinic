@@ -3,6 +3,7 @@ package com.jedromz.petclinic.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ public class Vet {
     private BigDecimal rate;
     private String nip;
     private boolean isFired;
-    @OneToMany(mappedBy = "pet", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "vet", cascade = {CascadeType.ALL})
     private Set<Visit> visits = new HashSet<>();
 
     @Version
@@ -40,5 +41,11 @@ public class Vet {
         this.rate = rate;
         this.nip = nip;
         this.isFired = isFired;
+    }
+
+    public boolean isFree(LocalDateTime dateTime) {
+        return getVisits().stream()
+                .map(Visit::getDateTime)
+                .anyMatch(visitTime -> visitTime.isEqual(dateTime));
     }
 }

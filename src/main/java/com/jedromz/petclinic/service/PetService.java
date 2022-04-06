@@ -4,8 +4,8 @@ import com.jedromz.petclinic.model.Pet;
 import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PetService {
@@ -22,4 +22,8 @@ public interface PetService {
     void deleteById(Long id);
 
     Pet edit(Pet toEdit, UpdatePetCommand updatePetCommand);
+
+    boolean existsByEmail(String email);
+
+    void savePets(List<Pet> pets);
 }
