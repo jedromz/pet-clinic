@@ -10,6 +10,9 @@ public class FullHourValidator implements ConstraintValidator<FullHour, LocalDat
 
     @Override
     public boolean isValid(LocalDateTime localDateTime, ConstraintValidatorContext constraintValidatorContext) {
+        if (localDateTime == null) {
+            return false;
+        }
         return localDateTime.getMinute() == 0;
     }
 }

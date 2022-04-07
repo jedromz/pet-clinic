@@ -3,10 +3,9 @@ package com.jedromz.petclinic.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.jedromz.petclinic.PetClinicApplication;
-import com.jedromz.petclinic.model.Pet;
 import com.jedromz.petclinic.model.Vet;
-import com.jedromz.petclinic.model.command.CreatePetCommand;
-import com.jedromz.petclinic.model.command.UpdatePetCommand;
+import com.jedromz.petclinic.model.command.CreateVetCommand;
+import com.jedromz.petclinic.model.command.UpdateVetCommand;
 import com.jedromz.petclinic.service.VetService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -91,165 +90,173 @@ class VetControllerTest {
         assertEquals(savedVet.getRate(), resultVet.getRate());
 
     }
-//    @Test
-//    void shouldNotGetPetWithBadId() throws Exception {
-//        long badId = 1L;
-//        postman.perform(get("/pets/{id}", badId))
-//                .andExpect(status().isNotFound())
-//                .andReturn()
-//                .getResponse().getErrorMessage();
-//    }
-//
-//    @Test
-//    void shouldGetAllPets() throws Exception {
-//        //given
-//        LocalDate testBirthdate = LocalDate.now().minusYears(10);
-//        String testType = "TEST_TYPE";
-//        String testRace = "TEST_RACE";
-//        String testOwnerName = "TEST_OWNER_NAME";
-//        String testOwnerEmail = "test@ownermail.com";
-//
-//
-//        petService.savePets(List.of(
-//                new Pet("TEST_NAME1", testType, testRace, testBirthdate, testOwnerName, testOwnerEmail),
-//                new Pet("TEST_NAME2", testType, testRace, testBirthdate, testOwnerName, testOwnerEmail),
-//                new Pet("TEST_NAME3", testType, testRace, testBirthdate, testOwnerName, testOwnerEmail)
-//        ));
-//        postman.perform(get("/pets"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.content[*].petName").value(containsInAnyOrder("TEST_NAME1",
-//                        "TEST_NAME2",
-//                        "TEST_NAME3")))
-//                .andExpect(jsonPath("$.content[*].type").value(containsInAnyOrder(testType,
-//                        testType,
-//                        testType)))
-//                .andExpect(jsonPath("$.content[*].race").value(containsInAnyOrder(testRace,
-//                        testRace,
-//                        testRace)))
-//                .andExpect(jsonPath("$.content[*].birthDate").value(containsInAnyOrder(testBirthdate.toString(),
-//                        testBirthdate.toString(),
-//                        testBirthdate.toString())))
-//                .andExpect(jsonPath("$.content[*].ownerName").value(containsInAnyOrder(testOwnerName,
-//                        testOwnerName,
-//                        testOwnerName)))
-//                .andExpect(jsonPath("$.content[*].ownerEmail").value(containsInAnyOrder(testOwnerEmail,
-//                        testOwnerEmail,
-//                        testOwnerEmail)));
-//    }
-//
-//    @Test
-//    void shouldGetEmptyList() throws Exception {
-//        postman.perform(get("/pets"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.content[*]").doesNotExist());
-//    }
-//
-//    @Test
-//    void shouldAddPet() throws Exception {
-//        //given
-//        CreatePetCommand command = CreatePetCommand.builder()
-//                .petName("TEST_NAME")
-//                .race("TEST_RACE")
-//                .type("TEST_TYPE")
-//                .birthDate(LocalDate.now().minusYears(10))
-//                .ownerName("TEST_OWNER_NAME")
-//                .ownerEmail("test@ownermail.com")
-//                .build();
-//        String requestJson = objectMapper.writeValueAsString(
-//                command);
-//        //when
-//        String response = postman.perform(post("/pets")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestJson))
-//                .andExpect(status().isCreated())
-//                .andReturn().getResponse().getContentAsString();
-//        int savedId = JsonPath.read(response, "id");
-//        //then
-//        postman.perform(get("/pets/" + savedId))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(savedId))
-//                .andExpect(jsonPath("$.petName").value(command.getPetName()))
-//                .andExpect(jsonPath("$.type").value(command.getType()))
-//                .andExpect(jsonPath("$.race").value(command.getRace()))
-//                .andExpect(jsonPath("$.birthDate").value(command.getBirthDate().toString()))
-//                .andExpect(jsonPath("$.ownerName").value(command.getOwnerName()))
-//                .andExpect(jsonPath("$.ownerEmail").value(command.getOwnerEmail()));
-//
-//    }
-//
-//    @Test
-//    void shouldNotAddPet() throws Exception {
-//        //given
-//        CreatePetCommand command = CreatePetCommand.builder().build();
-//        String requestJson = objectMapper.writeValueAsString(
-//                command);
-//        //when
-//        postman.perform(post("/pets")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestJson))
-//                .andExpect(status().isBadRequest());
-//    }
-//
-//
-//    @Test
-//    void shouldDeletePetById() throws Exception {
-//        //given
-//        Pet newPet = Pet.builder()
-//                .petName("TEST_NAME")
-//                .birthDate(LocalDate.now().minusYears(10))
-//                .type("TEST_TYPE")
-//                .race("TEST_RACE")
-//                .ownerEmail("test@ownermail.com")
-//                .build();
-//        Pet savedPet = petService.save(newPet);
-//        long petId = newPet.getId();
-//        //when
-//        postman.perform(delete("/pets/{id}", petId))
-//                .andExpect(status().isNoContent());
-//        //then
-//        String responseString = postman.perform((get("/pets/{id}", petId)))
-//                .andExpect(status().isNotFound())
-//                .andReturn()
-//                .getResponse().getContentAsString();
-//        assertEquals("{\"entityName\":\"Pet\",\"entityKey\":\"6\"}", responseString);
-//    }
-//
-//    @Test
-//    void shouldEditPet() throws Exception {
-//        //given
-//        Pet newPet = Pet.builder()
-//                .petName("TEST_NAME")
-//                .birthDate(LocalDate.now().minusYears(10))
-//                .type("TEST_TYPE")
-//                .race("TEST_RACE")
-//                .ownerEmail("test@ownermail.com")
-//                .build();
-//        Pet savedPet = petService.save(newPet);
-//        long petId = newPet.getId();
-//        UpdatePetCommand command = UpdatePetCommand.builder()
-//                .petName("EDITED_NAME")
-//                .race("EDITED_RACE")
-//                .type("EDITED_TYPE")
-//                .birthDate(LocalDate.now().minusYears(10))
-//                .ownerName("EDITED_OWNER_NAME")
-//                .ownerEmail("edited@ownermail.com")
-//                .version(savedPet.getVersion())
-//                .build();
-//        String requestJson = objectMapper.writeValueAsString(command);
-//        //when
-//        postman.perform(MockMvcRequestBuilders.put("/pets/{id}", petId)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestJson))
-//                .andExpect(status().isOk());
-//        //then
-//        postman.perform(get("/pets/" + petId))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(petId))
-//                .andExpect(jsonPath("$.petName").value(command.getPetName()))
-//                .andExpect(jsonPath("$.type").value(command.getType()))
-//                .andExpect(jsonPath("$.race").value(command.getRace()))
-//                .andExpect(jsonPath("$.birthDate").value(command.getBirthDate().toString()))
-//                .andExpect(jsonPath("$.ownerName").value(command.getOwnerName()))
-//                .andExpect(jsonPath("$.ownerEmail").value(command.getOwnerEmail()));
-//    }
+
+    @Test
+    void shouldNotVetPetWithBadId() throws Exception {
+        long badId = 1L;
+        postman.perform(get("/vets/{id}", badId))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse().getErrorMessage();
+    }
+
+    @Test
+    void shouldGetAllVets() throws Exception {
+
+        //given
+        BigDecimal DEFAULT_PRECISION = BigDecimal.valueOf(0.000001);
+        LocalDate testBirthdate = LocalDate.now().minusYears(10);
+        String firstName = "TEST_FIRSTNAME";
+        String lastName = "TEST_LASTNAME";
+        String specialization = "TEST_SPECIALIZATION";
+        String petSpecialization = "TEST_PET_SPECIALIZATION";
+        String nip = "1111111111";
+        BigDecimal rate = BigDecimal.valueOf(350.99);
+        boolean isFired = false;
+
+
+        vetService.saveVets(List.of(
+                new Vet(firstName + "1", lastName, specialization, petSpecialization, rate, nip, isFired),
+                new Vet(firstName + "2", lastName, specialization, petSpecialization, rate, nip, isFired),
+                new Vet(firstName + "3", lastName, specialization, petSpecialization, rate, nip, isFired)
+        ));
+        postman.perform(get("/vets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[*].firstName").value(containsInAnyOrder("TEST_FIRSTNAME1",
+                        "TEST_FIRSTNAME2",
+                        "TEST_FIRSTNAME3")))
+                .andExpect(jsonPath("$.content[*].lastName").value(containsInAnyOrder(lastName,
+                        lastName,
+                        lastName)))
+                .andExpect(jsonPath("$.content[*].specialization").value(containsInAnyOrder(specialization,
+                        specialization,
+                        specialization)))
+                .andExpect(jsonPath("$.content[*].petSpecialization").value(containsInAnyOrder(petSpecialization,
+                        petSpecialization,
+                        petSpecialization)))
+                .andExpect(jsonPath("$.content[*].nip").value(containsInAnyOrder(nip,
+                        nip,
+                        nip)))
+                .andExpect(jsonPath("$.content[*].fired").value(containsInAnyOrder(isFired,
+                        isFired,
+                        isFired)));
+    }
+
+    @Test
+    void shouldGetEmptyList() throws Exception {
+        postman.perform(get("/vets"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[*]").doesNotExist());
+    }
+
+    @Test
+    void shouldAddVet() throws Exception {
+        //given
+        CreateVetCommand command = CreateVetCommand.builder()
+                .firstName("TEST_FIRSTNAME")
+                .lastName("TEST_LASTNAME")
+                .specialization("TEST_SPECIALIZATION")
+                .petSpecialization("TEST_PET_SPECIALIZATION")
+                .nip("11111111111")
+                .rate(BigDecimal.valueOf(350))
+                .isFired(false)
+                .build();
+        String requestJson = objectMapper.writeValueAsString(
+                command);
+        //when
+        String response = postman.perform(post("/vets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString();
+        int savedId = JsonPath.read(response, "id");
+        //then
+        postman.perform(get("/vets/{id}", savedId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value(command.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(command.getLastName()))
+                .andExpect(jsonPath("$.nip").value(command.getNip()))
+                .andExpect(jsonPath("$.fired").value(command.isFired()))
+                .andExpect(jsonPath("$.specialization").value(command.getSpecialization()))
+                .andExpect(jsonPath("$.petSpecialization").value(command.getPetSpecialization()))
+                .andReturn();
+
+    }
+
+    @Test
+    void shouldNotAddVet() throws Exception {
+        //given
+        CreateVetCommand command = CreateVetCommand.builder().build();
+        String requestJson = objectMapper.writeValueAsString(
+                command);
+        //when
+        postman.perform(post("/vets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    @Test
+    void shouldDeleteVetById() throws Exception {
+        //given
+        Vet newVet = Vet.builder()
+                .firstName("TEST_FIRSTNAME")
+                .lastName("TEST_LASTNAME")
+                .nip("1111111111")
+                .isFired(false)
+                .specialization("cardiologist")
+                .petSpecialization("dogs")
+                .rate(BigDecimal.valueOf(100.99))
+                .build();
+        Vet savedVet = vetService.save(newVet);
+        //when
+        postman.perform(delete("/vets/{id}", savedVet.getId()))
+                .andExpect(status().isNoContent());
+        //then
+        postman.perform((get("/vets/{id}", savedVet.getId())))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldEditVet() throws Exception {
+        //given
+        Vet newVet = Vet.builder()
+                .firstName("TEST_FIRSTNAME")
+                .lastName("TEST_LASTNAME")
+                .nip("1111111111")
+                .isFired(false)
+                .specialization("TEST_SPECIALIZATION")
+                .petSpecialization("TEST_PET_SPECIALIZATION")
+                .rate(BigDecimal.valueOf(100.99))
+                .build();
+        Vet savedVet = vetService.save(newVet);
+        long vetId = savedVet.getId();
+        UpdateVetCommand command = UpdateVetCommand.builder()
+                .firstName("EDITED_TEST_FIRSTNAME")
+                .lastName("EDITED_TEST_LASTNAME")
+                .nip("22222222222")
+                .isFired(false)
+                .specialization("EDITED_SPEC")
+                .petSpecialization("EDITED_PET_SPEC")
+                .rate(BigDecimal.valueOf(200.99))
+                .version(savedVet.getVersion())
+                .build();
+        String requestJson = objectMapper.writeValueAsString(command);
+        //when
+        postman.perform(MockMvcRequestBuilders.put("/vets/{id}", vetId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestJson))
+                .andExpect(status().isOk());
+        //then
+        postman.perform(get("/vets/" + vetId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.firstName").value(command.getFirstName()))
+                .andExpect(jsonPath("$.lastName").value(command.getLastName()))
+                .andExpect(jsonPath("$.nip").value(command.getNip()))
+                .andExpect(jsonPath("$.fired").value(command.isFired()))
+                .andExpect(jsonPath("$.specialization").value(command.getSpecialization()))
+                .andExpect(jsonPath("$.petSpecialization").value(command.getPetSpecialization()))
+                .andReturn();
+    }
 }

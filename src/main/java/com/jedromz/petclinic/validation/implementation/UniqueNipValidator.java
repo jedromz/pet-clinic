@@ -1,4 +1,5 @@
 package com.jedromz.petclinic.validation.implementation;
+
 import com.jedromz.petclinic.service.VetService;
 import com.jedromz.petclinic.validation.annotation.UniqueNip;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ public class UniqueNipValidator implements ConstraintValidator<UniqueNip, String
 
     @Override
     public boolean isValid(String nip, ConstraintValidatorContext constraintValidatorContext) {
-        return false;
+
+        return !vetService.existsByNip(nip);
     }
 }

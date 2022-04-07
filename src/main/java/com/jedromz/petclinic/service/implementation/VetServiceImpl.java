@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -46,9 +48,9 @@ public class VetServiceImpl implements VetService {
     @Transactional
     public Vet edit(Vet toEdit, UpdateVetCommand command) {
 
-        toEdit.setFirstName(toEdit.getFirstName());
-        toEdit.setLastName(toEdit.getLastName());
-        toEdit.setRate(toEdit.getRate());
+        toEdit.setFirstName(command.getFirstName());
+        toEdit.setLastName(command.getLastName());
+        toEdit.setRate(command.getRate());
         toEdit.setNip(command.getNip());
         toEdit.setSpecialization(command.getSpecialization());
         toEdit.setPetSpecialization(command.getPetSpecialization());
@@ -67,6 +69,11 @@ public class VetServiceImpl implements VetService {
     public boolean existsByNip(String nip) {
         System.out.println(vetRepository.existsByNip(nip));
         return vetRepository.existsByNip(nip);
+    }
+
+    @Override
+    public void saveVets(List<Vet> vets) {
+        vetRepository.saveAllAndFlush(vets);
     }
 
     @Override

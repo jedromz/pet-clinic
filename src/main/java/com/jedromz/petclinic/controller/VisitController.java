@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
@@ -43,7 +44,7 @@ public class VisitController {
     }
 
     @PostMapping()
-    public ResponseEntity<VisitDto> saveVisit(@RequestBody CreateVisitCommand command) {
+    public ResponseEntity<VisitDto> saveVisit(@RequestBody @Valid CreateVisitCommand command) {
         Visit visit = visitService.save(modelMapper.map(command, Visit.class));
         return new ResponseEntity<>(modelMapper.map(visit, VisitDto.class), HttpStatus.CREATED);
     }
@@ -55,7 +56,7 @@ public class VisitController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<VisitDto> editVisit(@PathVariable long id, @RequestBody UpdateVisitCommand command) {
+    public ResponseEntity<VisitDto> editVisit(@PathVariable long id, @Valid @RequestBody UpdateVisitCommand command) {
         Visit toEdit = visitService.findById(id).orElseThrow(() -> new EntityNotFoundException("Visit", Long.toString(id)));
         Visit edited = visitService.edit(toEdit, command);
         return new ResponseEntity<>(modelMapper.map(edited, VisitDto.class), HttpStatus.OK);
