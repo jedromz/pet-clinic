@@ -91,29 +91,31 @@ public class PetClinicApplication {
                             .nip("10987654321")
                             .rate(BigDecimal.valueOf(150))
                             .build()));
+            LocalDateTime visitTime = LocalDateTime.now().plusDays(1);
+            visitTime = visitTime.minusMinutes(visitTime.getMinute());
             visitRepository.saveAllAndFlush(List.of(
                     Visit.builder()
-                            .dateTime(LocalDateTime.now().plusDays(1))
+                            .dateTime(visitTime)
                             .pet(petRepository.getById(1L))
                             .vet(vetRepository.getById(1L))
                             .build(),
                     Visit.builder()
-                            .dateTime(LocalDateTime.now().plusDays(1))
+                            .dateTime(visitTime)
                             .pet(petRepository.getById(2L))
                             .vet(vetRepository.getById(1L))
                             .build(),
                     Visit.builder()
-                            .dateTime(LocalDateTime.now().plusDays(1))
+                            .dateTime(visitTime)
                             .pet(petRepository.getById(3L))
                             .vet(vetRepository.getById(1L))
                             .build(),
                     Visit.builder()
-                            .dateTime(LocalDateTime.now().plusDays(1))
+                            .dateTime(visitTime)
                             .pet(petRepository.getById(1L))
                             .vet(vetRepository.getById(2L))
                             .build(),
                     Visit.builder()
-                            .dateTime(LocalDateTime.now().plusDays(1))
+                            .dateTime(visitTime)
                             .pet(petRepository.getById(1L))
                             .vet(vetRepository.getById(2L))
                             .build()));
