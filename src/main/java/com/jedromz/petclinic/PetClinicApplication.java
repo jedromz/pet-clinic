@@ -14,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,16 +40,52 @@ public class PetClinicApplication {
 
             petRepository.saveAllAndFlush(List.of(
                     Pet.builder().petName("jackie")
-                            .ownerEmail("karen@smith.gmail.com").build(),
-                    Pet.builder().petName("rocky").build(),
-                    Pet.builder().petName("scooby").build(),
-                    Pet.builder().petName("cat").build(),
-                    Pet.builder().petName("maya").build()));
-            vetRepository.saveAllAndFlush(List.of(
-                    Vet.builder().firstName("Jackie")
-                            .nip("1234")
+                            .ownerEmail("karen@smith.gmail.com")
+                            .race("coondell")
+                            .type("Dog")
+                            .birthDate(LocalDate.now().minusYears(10))
                             .build(),
-                    Vet.builder().firstName("Ann").build()));
+                    Pet.builder().petName("rocky")
+                            .ownerEmail("karen@smith.gmail.com")
+                            .race("egyptian")
+                            .type("cat")
+                            .birthDate(LocalDate.now().minusYears(10))
+                            .build(),
+                    Pet.builder().petName("tomash")
+                            .ownerEmail("karen@smith.gmail.com")
+                            .race("ara")
+                            .type("parrot")
+                            .birthDate(LocalDate.now().minusYears(10))
+                            .build(),
+                    Pet.builder().petName("bambo")
+                            .ownerEmail("karen@smith.gmail.com")
+                            .race("Poodle")
+                            .type("Dog")
+                            .birthDate(LocalDate.now().minusYears(10))
+                            .build(),
+                    Pet.builder().petName("bob")
+                            .ownerEmail("karen@smith.gmail.com")
+                            .race("goldfish")
+                            .type("fish")
+                            .birthDate(LocalDate.now().minusYears(10))
+                            .build()));
+            vetRepository.saveAllAndFlush(List.of(
+                    Vet.builder()
+                            .firstName("Jackie")
+                            .lastName("Smith")
+                            .specialization("Cardio")
+                            .petSpecialization("Dog")
+                            .nip("12345678910")
+                            .rate(BigDecimal.valueOf(350))
+                            .build(),
+                    Vet.builder()
+                            .firstName("Ann")
+                            .lastName("Green")
+                            .specialization("Surgeon")
+                            .petSpecialization("Cat")
+                            .nip("10987654321")
+                            .rate(BigDecimal.valueOf(150))
+                            .build()));
             visitRepository.saveAllAndFlush(List.of(
                     Visit.builder()
                             .dateTime(LocalDateTime.now().plusDays(1))
