@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 public class CreateVisitCommand {
 
+
     @NotNull(message = "DATETIME_NOT_NULL")
     @Future
     @FullHour

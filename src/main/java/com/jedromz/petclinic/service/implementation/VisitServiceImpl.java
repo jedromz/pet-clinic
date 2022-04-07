@@ -86,6 +86,16 @@ public class VisitServiceImpl implements VisitService {
         visitRepository.delete(visit);
     }
 
+    @Override
+    public void deleteAll() {
+        visitRepository.deleteAll();
+    }
+
+    @Override
+    public void saveVisits(List<Visit> newVisit) {
+        visitRepository.saveAllAndFlush(newVisit);
+    }
+
     @Transactional
     public VisitToken generateVerificationToken(Visit visit) {
         String token = UUID.randomUUID().toString();

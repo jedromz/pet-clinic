@@ -25,7 +25,7 @@ public class UpdateVetCommand {
     private BigDecimal rate;
     @NotNull(message = "NIP_NOT_NULL")
     private String nip;
-    @NotEmpty(message = "VERSION_NOT_EMPTY")
+    @NotNull(message = "VERSION_NOT_EMPTY")
     private int version;
     private boolean isFired;
 }

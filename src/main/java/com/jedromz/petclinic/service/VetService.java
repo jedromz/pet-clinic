@@ -5,6 +5,7 @@ import com.jedromz.petclinic.model.command.UpdateVetCommand;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface VetService {
@@ -22,6 +23,8 @@ public interface VetService {
     Vet fire(Vet toEdit);
 
     boolean existsByNip(String nip);
+
+    void saveVets(List<Vet> vets);
 
     void deleteAll();
 }

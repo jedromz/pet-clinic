@@ -3,6 +3,7 @@ package com.jedromz.petclinic.error;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ScheduleConflictException.class)
     public ResponseEntity handleEntityNotFoundException(ScheduleConflictException exc) {
         return new ResponseEntity(new ValidationErrorDto("DATE_CONFLICT", "VET_VISIT_DATE"), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ObjectOptimisticLockingFailureException.class)
+    public ResponseEntity handleEntityNotFoundException(ObjectOptimisticLockingFailureException exc) {
+        return new ResponseEntity(new OptimisticLockDto("OPTIMISTIC_LOCK"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -66,5 +72,10 @@ public class GlobalExceptionHandler {
     class NotFoundDto {
         private String entityName;
         private String entityKey;
+    }
+
+    @Value
+    class OptimisticLockDto {
+        private String message;
     }
 }
