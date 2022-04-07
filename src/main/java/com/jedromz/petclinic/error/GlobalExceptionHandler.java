@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ScheduleConflictException.class)
     public ResponseEntity handleEntityNotFoundException(ScheduleConflictException exc) {
-        return new ResponseEntity(new ValidationErrorDto("DATE_CONFLICT", "VET_VISIT_DATE"), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(new ValidationErrorDto("DATE_CONFLICT", "VET_OR_PET_VISIT_DATE"), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ObjectOptimisticLockingFailureException.class)

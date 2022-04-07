@@ -95,27 +95,27 @@ public class PetClinicApplication {
             visitTime = visitTime.minusMinutes(visitTime.getMinute());
             visitRepository.saveAllAndFlush(List.of(
                     Visit.builder()
-                            .dateTime(visitTime)
+                            .dateTime(visitTime.plusDays(1))
                             .pet(petRepository.getById(1L))
                             .vet(vetRepository.getById(1L))
                             .build(),
                     Visit.builder()
-                            .dateTime(visitTime)
+                            .dateTime(visitTime.plusDays(2))
                             .pet(petRepository.getById(2L))
                             .vet(vetRepository.getById(1L))
                             .build(),
                     Visit.builder()
-                            .dateTime(visitTime)
+                            .dateTime(visitTime.plusDays(3))
                             .pet(petRepository.getById(3L))
                             .vet(vetRepository.getById(1L))
                             .build(),
                     Visit.builder()
-                            .dateTime(visitTime)
+                            .dateTime(visitTime.plusDays(4))
                             .pet(petRepository.getById(1L))
                             .vet(vetRepository.getById(2L))
                             .build(),
                     Visit.builder()
-                            .dateTime(visitTime)
+                            .dateTime(visitTime.plusDays(5))
                             .pet(petRepository.getById(1L))
                             .vet(vetRepository.getById(2L))
                             .build()));
