@@ -58,7 +58,7 @@ class VetControllerTest {
     void shouldGetSingleVet() throws Exception {
         //given
         Vet newVet = Vet.builder()
-                .firstName("TEST_FIRSTNAME")
+                .firstname("TEST_FIRSTNAME")
                 .lastName("TEST_LASTNAME")
                 .nip("1111111111")
                 .isFired(false)
@@ -71,8 +71,8 @@ class VetControllerTest {
         //when
         MvcResult mvcResult = postman.perform(get("/vets/{id}", savedVet.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value(newVet.getFirstName()))
-                .andExpect(jsonPath("$.lastName").value(newVet.getLastName()))
+                .andExpect(jsonPath("$.firstName").value(newVet.getFirstname()))
+                .andExpect(jsonPath("$.lastName").value(newVet.getLastname()))
                 .andExpect(jsonPath("$.nip").value(newVet.getNip()))
                 .andExpect(jsonPath("$.fired").value(newVet.isFired()))
                 .andExpect(jsonPath("$.specialization").value(newVet.getSpecialization()))
@@ -81,8 +81,8 @@ class VetControllerTest {
                 .andReturn();
         //then
         Vet resultVet = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Vet.class);
-        assertEquals(savedVet.getFirstName(), resultVet.getFirstName());
-        assertEquals(savedVet.getLastName(), resultVet.getLastName());
+        assertEquals(savedVet.getFirstname(), resultVet.getFirstname());
+        assertEquals(savedVet.getLastname(), resultVet.getLastname());
         assertEquals(savedVet.getNip(), resultVet.getNip());
         assertEquals(savedVet.isFired(), resultVet.isFired());
         assertEquals(savedVet.getSpecialization(), resultVet.getSpecialization());
@@ -159,7 +159,6 @@ class VetControllerTest {
                 .petSpecialization("TEST_PET_SPECIALIZATION")
                 .nip("11111111111")
                 .rate(BigDecimal.valueOf(350))
-                .isFired(false)
                 .build();
         String requestJson = objectMapper.writeValueAsString(
                 command);
@@ -176,7 +175,6 @@ class VetControllerTest {
                 .andExpect(jsonPath("$.firstName").value(command.getFirstName()))
                 .andExpect(jsonPath("$.lastName").value(command.getLastName()))
                 .andExpect(jsonPath("$.nip").value(command.getNip()))
-                .andExpect(jsonPath("$.fired").value(command.isFired()))
                 .andExpect(jsonPath("$.specialization").value(command.getSpecialization()))
                 .andExpect(jsonPath("$.petSpecialization").value(command.getPetSpecialization()))
                 .andReturn();
@@ -201,7 +199,7 @@ class VetControllerTest {
     void shouldDeleteVetById() throws Exception {
         //given
         Vet newVet = Vet.builder()
-                .firstName("TEST_FIRSTNAME")
+                .firstname("TEST_FIRSTNAME")
                 .lastName("TEST_LASTNAME")
                 .nip("1111111111")
                 .isFired(false)
@@ -222,7 +220,7 @@ class VetControllerTest {
     void shouldEditVet() throws Exception {
         //given
         Vet newVet = Vet.builder()
-                .firstName("TEST_FIRSTNAME")
+                .firstname("TEST_FIRSTNAME")
                 .lastName("TEST_LASTNAME")
                 .nip("1111111111")
                 .isFired(false)

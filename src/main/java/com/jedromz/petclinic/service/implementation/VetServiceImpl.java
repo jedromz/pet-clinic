@@ -1,10 +1,7 @@
 package com.jedromz.petclinic.service.implementation;
-//W przychodni powinno byc API dla pacjentow
-// - dodanie pacjenta
-// - pobranie danych pacjenta po id
-// - pobranie wszystkich pacjentow (z paginacja)
 
 import com.jedromz.petclinic.model.Vet;
+import com.jedromz.petclinic.model.Visit;
 import com.jedromz.petclinic.model.command.UpdateVetCommand;
 import com.jedromz.petclinic.repository.VetRepository;
 import com.jedromz.petclinic.service.VetService;
@@ -14,8 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,7 +29,7 @@ public class VetServiceImpl implements VetService {
 
     @Transactional(readOnly = true)
     public Optional<Vet> findById(Long id) {
-        return vetRepository.findById(id);
+        return vetRepository.findVetWithVisits(id);
     }
 
     @Transactional
@@ -42,14 +39,14 @@ public class VetServiceImpl implements VetService {
 
     @Transactional
     public void deleteById(Long id) {
-        vetRepository.findById(id).ifPresent(vetRepository::delete);
+        vetRepository.findVetWithVisits(id).ifPresent(vetRepository::delete);
     }
 
     @Transactional
     public Vet edit(Vet toEdit, UpdateVetCommand command) {
 
-        toEdit.setFirstName(command.getFirstName());
-        toEdit.setLastName(command.getLastName());
+        toEdit.setFirstname(command.getFirstName());
+        toEdit.setLastname(command.getLastName());
         toEdit.setRate(command.getRate());
         toEdit.setNip(command.getNip());
         toEdit.setSpecialization(command.getSpecialization());
@@ -59,27 +56,33 @@ public class VetServiceImpl implements VetService {
         return vetRepository.save(toEdit);
     }
 
-    @Override
+    @Transactional
     public Vet fire(Vet toFire) {
         toFire.setFired(true);
         return vetRepository.saveAndFlush(toFire);
     }
 
-    @Override
+    @Transactional
     public boolean existsByNip(String nip) {
         System.out.println(vetRepository.existsByNip(nip));
         return vetRepository.existsByNip(nip);
     }
 
-    @Override
+    @Transactional
     public void saveVets(List<Vet> vets) {
         vetRepository.saveAllAndFlush(vets);
     }
 
-    @Override
+    @Transactional
     public void deleteAll() {
         vetRepository.deleteAll();
     }
 
-
+    public boolean isAppointed(Vet vet, LocalDateTime dateTime) {
+        return vet.getVisits().stream()
+                .map(Visit::getDateTime)
+                .filter(dt -> dt.toLocalDate().equals(dateTime.toLocalDate()))
+                .filter(dt -> dt.getHour() == dateTime.getHour())
+                .anyMatch(dt -> dt.getHour() == dateTime.getMinute());
+    }
 }

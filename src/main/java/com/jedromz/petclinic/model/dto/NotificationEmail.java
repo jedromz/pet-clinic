@@ -1,4 +1,4 @@
-package com.jedromz.petclinic.model;
+package com.jedromz.petclinic.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,22 +2,27 @@ package com.jedromz.petclinic.service.implementation;
 
 import com.jedromz.petclinic.error.BadDateException;
 import com.jedromz.petclinic.error.EntityNotFoundException;
-import com.jedromz.petclinic.model.NotificationEmail;
-import com.jedromz.petclinic.model.Visit;
-import com.jedromz.petclinic.model.VisitToken;
+import com.jedromz.petclinic.error.ScheduleConflictException;
+import com.jedromz.petclinic.model.*;
+import com.jedromz.petclinic.model.command.CheckVisitsCommand;
+import com.jedromz.petclinic.model.command.CreateVisitCommand;
 import com.jedromz.petclinic.model.command.UpdateVisitCommand;
+import com.jedromz.petclinic.model.dto.NotificationEmail;
 import com.jedromz.petclinic.repository.PetRepository;
+import com.jedromz.petclinic.repository.VetRepository;
 import com.jedromz.petclinic.repository.VisitRepository;
 import com.jedromz.petclinic.repository.VisitTokenRepository;
 import com.jedromz.petclinic.service.MailService;
 import com.jedromz.petclinic.service.VisitService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.LockModeType;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,8 +35,10 @@ public class VisitServiceImpl implements VisitService {
 
     private final VisitRepository visitRepository;
     private final MailService mailService;
+    private final VetRepository vetRepository;
     private final PetRepository petRepository;
     private final VisitTokenRepository visitTokenRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
     public Page<Visit> findAll(Pageable pageable) {
@@ -43,13 +50,30 @@ public class VisitServiceImpl implements VisitService {
         return visitRepository.findById(id);
     }
 
+    @Transactional
+    public Visit save(CreateVisitCommand command) {
+        if (checkSchedules(command)) {
+            throw new ScheduleConflictException();
+        }
+        Vet vet = vetRepository.findVetWithVisits(command.getVetId(), LockModeType.PESSIMISTIC_READ).orElseThrow(() -> new EntityNotFoundException("Vet", Long.toString(command.getVetId())));
+        Pet pet = petRepository.findPetWithVisits(command.getPetId(), LockModeType.PESSIMISTIC_READ).orElseThrow(() -> new EntityNotFoundException("Pet", Long.toString(command.getPetId())));
 
-    public Visit save(Visit visit) {
+        Visit visit = modelMapper.map(command, Visit.class);
         Visit savedVisit = visitRepository.saveAndFlush(visit);
         VisitToken visitToken = generateVerificationToken(visit);
-        mailService.sendMail(new NotificationEmail("pet-clinic@info.com", "Visit confirmation", visit.getPet().getOwnerEmail(), "Thank you for signing up for a visit, please click the link below to confirm:" + "http://localhost:8080/api/visits/confirm/" + visitToken.getToken()));
+        mailService.sendMail(new NotificationEmail("pet-clinic@info.com", "Visit confirmation", pet.getOwnerEmail(), "Thank you for signing up for a visit, please click the link below to confirm:" + "http://localhost:8080/api/visits/confirm/" + visitToken.getToken()
+                + " your vet is: " + vet.getFirstname() + " " + vet.getLastname()));
 
         return savedVisit;
+    }
+
+    @Transactional
+    public Visit save(Visit visit) {
+        return visitRepository.save(visit);
+    }
+
+    private boolean checkSchedules(CreateVisitCommand command) {
+        return visitRepository.existsByDateTimeAndVet_Id(command.getDateTime(), command.getVetId()) || visitRepository.existsByDateTimeAndPet_Id(command.getDateTime(), command.getPetId());
     }
 
     @Transactional
@@ -94,6 +118,11 @@ public class VisitServiceImpl implements VisitService {
     @Override
     public void saveVisits(List<Visit> newVisit) {
         visitRepository.saveAllAndFlush(newVisit);
+    }
+
+    @Override
+    public List<Visit> check(CheckVisitsCommand command) {
+        return visitRepository.findByDateTimeIsBetweenAndVet_SpecializationAndVet_PetSpecialization(command.getFromDate(), command.getToDate(), command.getSpecialization(), command.getPetSpecialization());
     }
 
     @Transactional

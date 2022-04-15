@@ -1,4 +1,4 @@
-package com.jedromz.petclinic.service.implementation;
+package com.jedromz.petclinic.service;
 
 import com.jedromz.petclinic.model.VisitToken;
 

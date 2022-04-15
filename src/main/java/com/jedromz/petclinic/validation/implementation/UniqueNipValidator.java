@@ -16,7 +16,6 @@ public class UniqueNipValidator implements ConstraintValidator<UniqueNip, String
 
     @Override
     public boolean isValid(String nip, ConstraintValidatorContext constraintValidatorContext) {
-
         return !vetService.existsByNip(nip);
     }
 }

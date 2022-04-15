@@ -20,7 +20,6 @@ public class VisitToken {
     private Long id;
     private String token;
     @OneToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Visit visit;
 
     public VisitToken(String token, Visit visit) {

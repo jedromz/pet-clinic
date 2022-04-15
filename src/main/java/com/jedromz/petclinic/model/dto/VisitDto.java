@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class VisitDto extends RepresentationModel<VisitDto> {
-
     private Long id;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime dateTime;

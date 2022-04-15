@@ -22,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/vets")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class VetController {
 
     private final VetService vetService;
@@ -53,7 +54,6 @@ public class VetController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-
     @PutMapping("/{id}")
     public ResponseEntity<VetDto> editVet(@PathVariable long id, @RequestBody @Valid UpdateVetCommand command) {
         Vet toEdit = vetService.findById(id).orElseThrow(() -> new EntityNotFoundException("Vet", Long.toString(id)));
@@ -62,14 +62,13 @@ public class VetController {
     }
 
     @GetMapping("/{id}/visits")
-    public ResponseEntity<List<VisitDto>> getVetVisits(Long id) {
+    public ResponseEntity<List<VisitDto>> getVetVisits(@PathVariable Long id) {
         return ResponseEntity.ok(vetService.findById(id).orElseThrow(() -> new EntityNotFoundException("Vet", Long.toString(id)))
                 .getVisits()
                 .stream()
                 .map(visit -> modelMapper.map(visit, VisitDto.class))
                 .toList());
     }
-
 
     @PutMapping("/{id}/fire")
     public ResponseEntity<VetDto> fireVet(@PathVariable long id) {

@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Setter
 @Builder
 public class CreateVetCommand {
-
     @NotNull(message = "FIRSTNAME_NOT_NULL")
     private String firstName;
     @NotNull(message = "LASTNAME_NOT_NULL")
@@ -28,5 +27,4 @@ public class CreateVetCommand {
     @UniqueNip
     @Size(min = 11,max = 11)
     private String nip;
-    private boolean isFired;
 }

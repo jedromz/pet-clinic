@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="11042022-002" author="jedrek">
+        <createTable tableName="pet">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="pet_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birthdate" type="DATETIME"/>
+            <column name="race" type="VARCHAR(100)"/>
+            <column name="owner_email" type="VARCHAR(255)"/>
+            <column name="owner_name" type="VARCHAR(255)"/>
+            <column name="version" type="INT"/>
+        </createTable>
+        <createTable tableName="vet">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="firstname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="lastname" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="specialization" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="pet_specialization" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rate" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nip" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_fired" type="BOOLEAN"/>
+            <column name="version" type="INT"/>
+        </createTable>
+        <createTable tableName="visit">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="date_time" type="DATETIME"/>
+            <column name="confirmed" type="BOOLEAN"/>
+            <column name="version" type="INT"/>
+            <column name="pet_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="vet_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createTable tableName="visit_token">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="token" type="VARCHAR(100)"/>
+            <column name="visit_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="visit" baseColumnNames="pet_id" constraintName="fk_pet_id"
+                                 referencedTableName="pet"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="visit" baseColumnNames="vet_id" constraintName="fk_vet_id"
+                                 referencedTableName="vet"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <addForeignKeyConstraint baseTableName="visit_token" baseColumnNames="visit_id" constraintName="fk_visit_id"
+                                 referencedTableName="visit"
+                                 referencedColumnNames="id" onDelete="CASCADE"
+                                 onUpdate="RESTRICT"/>
+        <rollback>
+            <dropTable tableName="visit"/>
+            <dropTable tableName="vet"/>
+            <dropTable tableName="pet"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="jedrek" id="08042022-003">
+        <createSequence sequenceName="hibernate_sequence" startValue="0" incrementBy="1"/>
+        <loadUpdateData
+                file="classpath:/changes/pets.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="pet">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="pet_name" name="pet_name" type="VARCHAR(255)"/>
+            <column header="type" name="type" type="VARCHAR(255)"/>
+            <column header="birthdate" name="birthdate" type="DATETIME"/>
+            <column header="race" name="race" type="VARCHAR(100)"/>
+            <column header="owner_email" name="owner_email" type="VARCHAR(255)"/>
+            <column header="owner_name" name="owner_name" type="VARCHAR(255)"/>
+            <column header="version" name="version" type="BIGINT"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/vets.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="vet">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="firstname" name="firstname" type="VARCHAR(255)"/>
+            <column header="lastname" name="lastname" type="VARCHAR(255)"/>
+            <column header="specialization" name="specialization" type="VARCHAR(255)"/>
+            <column header="pet_specialization" name="pet_specialization" type="VARCHAR(255)"/>
+            <column header="nip" name="nip" type="VARCHAR(255)"/>
+            <column header="rate" name="rate" type="DECIMAL"/>
+            <column header="is_fired" name="is_fired" type="BOOLEAN"/>
+            <column header="version" name="version" type="BIGINT"/>
+        </loadUpdateData>
+        <loadUpdateData
+                file="classpath:/changes/visits.csv"
+                primaryKey="id"
+                schemaName="public"
+                quotchar='"'
+                separator=","
+                tableName="visit">
+            <column header="id" name="id" type="BIGINT"/>
+            <column header="date_time" name="date_time" type="DATETIME"/>
+            <column header="confirmed" name="confirmed" type="BOOLEAN"/>
+            <column header="version" name="version" type="BIGINT"/>
+            <column header="pet_id" name="pet_id" type="BIGINT"/>
+            <column header="vet_id" name="vet_id" type="BIGINT"/>
+            <column header="rate" name="rate" type="DECIMAL"/>
+            <column header="is_fired" name="is_fired" type="BOOLEAN"/>
+            <column header="version" name="version" type="BIGINT"/>
+        </loadUpdateData>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,5 @@
+1. Liquibase
+- Waiting for liquibase lock.... przy starnie aplikacji
+- Czy tworzyc tabele HIBERNATE_SEQUENCE
+2.JPA Repo
+-Opcjonlne parametry - np findByVetSpecializartionAndVetAge - gdy Age jest null, tylko po specialization

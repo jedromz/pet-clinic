@@ -3,11 +3,12 @@ package com.jedromz.petclinic.controller;
 import com.jedromz.petclinic.error.EntityNotFoundException;
 import com.jedromz.petclinic.model.Visit;
 import com.jedromz.petclinic.model.VisitToken;
+import com.jedromz.petclinic.model.command.CheckVisitsCommand;
 import com.jedromz.petclinic.model.command.CreateVisitCommand;
 import com.jedromz.petclinic.model.command.UpdateVisitCommand;
 import com.jedromz.petclinic.model.dto.VisitDto;
 import com.jedromz.petclinic.service.VisitService;
-import com.jedromz.petclinic.service.implementation.VisitTokenService;
+import com.jedromz.petclinic.service.VisitTokenService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -18,11 +19,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/visits")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class VisitController {
 
     private final VisitService visitService;
@@ -45,7 +47,7 @@ public class VisitController {
 
     @PostMapping()
     public ResponseEntity<VisitDto> saveVisit(@RequestBody @Valid CreateVisitCommand command) {
-        Visit visit = visitService.save(modelMapper.map(command, Visit.class));
+        Visit visit = visitService.save(command);
         return new ResponseEntity<>(modelMapper.map(visit, VisitDto.class), HttpStatus.CREATED);
     }
 
@@ -76,5 +78,11 @@ public class VisitController {
                 .orElseThrow(() -> new EntityNotFoundException("VisitToken", token));
         visitService.cancelVisit(visitToken);
         return new ResponseEntity("Visit cancelled successfully", HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity check(@RequestBody @Valid CheckVisitsCommand command) {
+        List<Visit> visit = visitService.check(command);
+        return ResponseEntity.ok(visit.stream().map(v -> modelMapper.map(v, VisitDto.class)).toList());
     }
 }
