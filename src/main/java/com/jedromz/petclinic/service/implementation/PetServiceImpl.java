@@ -1,6 +1,7 @@
 package com.jedromz.petclinic.service.implementation;
 
 import com.jedromz.petclinic.model.Pet;
+import com.jedromz.petclinic.model.Visit;
 import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.repository.PetRepository;
 import com.jedromz.petclinic.service.PetService;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,7 +30,7 @@ public class PetServiceImpl implements PetService {
 
     @Transactional(readOnly = true)
     public Optional<Pet> findById(Long id) {
-        return petRepository.findById(id);
+        return petRepository.findPetWithVisits(id);
     }
 
     @Transactional
@@ -46,7 +48,7 @@ public class PetServiceImpl implements PetService {
     public Pet edit(Pet toEdit, UpdatePetCommand command) {
 
         toEdit.setPetName(command.getPetName());
-        toEdit.setBirthDate(command.getBirthDate());
+        toEdit.setBirthdate(command.getBirthDate());
         toEdit.setOwnerEmail(command.getOwnerEmail());
         toEdit.setOwnerName(command.getOwnerName());
         toEdit.setRace(command.getRace());
@@ -65,9 +67,14 @@ public class PetServiceImpl implements PetService {
         petRepository.saveAllAndFlush(pets);
     }
 
-    public void deleteAll() {
-        petRepository.deleteAll();
-    }
+    @Transactional
+    public boolean isAppointed(Pet pet, LocalDateTime dateTime) {
+        return pet.getVisits().stream()
+                .map(Visit::getDateTime)
+                .filter(dt -> dt.toLocalDate().equals(dateTime.toLocalDate()))
+                .filter(dt -> dt.getHour() == dateTime.getHour())
+                .anyMatch(dt -> dt.getHour() == dateTime.getMinute());
 
+    }
 
 }

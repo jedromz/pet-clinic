@@ -7,7 +7,6 @@ import com.jedromz.petclinic.model.command.UpdatePetCommand;
 import com.jedromz.petclinic.model.dto.PetDto;
 import com.jedromz.petclinic.model.dto.VisitDto;
 import com.jedromz.petclinic.service.PetService;
-import com.jedromz.petclinic.service.VisitService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -24,11 +23,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/pets")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class PetController {
 
     private final PetService petService;
     private final ModelMapper modelMapper;
-    private final VisitService visitService;
 
     @GetMapping("/{id}")
     public ResponseEntity<PetDto> getPet(@PathVariable long id) {

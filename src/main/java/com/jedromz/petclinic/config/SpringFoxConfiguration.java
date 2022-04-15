@@ -21,32 +21,20 @@ import java.util.List;
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfiguration {
+
     @Bean
     public Docket get() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build();
+        return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
     }
-
 
     @Bean
     public LinkDiscoverers discoverers() {
         List<LinkDiscoverer> plugins = new ArrayList<>();
         plugins.add(new CollectionJsonLinkDiscoverer());
         return new LinkDiscoverers(SimplePluginRegistry.create(plugins));
-
     }
+
     private ApiInfo createApiInfo() {
-        return new ApiInfo("Pet Clinic API",
-                "Pet Clinic database",
-                "1.00",
-                "https://github.com/jedromz/pet-clinic",
-                new Contact("Jedrzej", "https://github.com/jedromz/pet-clinic", "romankiewicz.j@gmail.com"),
-                "my own licence",
-                "https://github.com/jedromz/pet-clinic",
-                Collections.emptyList()
-        );
+        return new ApiInfo("Pet Clinic API", "Pet Clinic database", "1.00", "https://github.com/jedromz/pet-clinic", new Contact("Jedrzej", "https://github.com/jedromz/pet-clinic", "romankiewicz.j@gmail.com"), "my own licence", "https://github.com/jedromz/pet-clinic", Collections.emptyList());
     }
 }

@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class UpdatePetCommand {
-
     @NotNull(message = "PET_NAME_NOT_NULL")
     private String petName;
     @NotNull(message = "TYPE_NOT_NULL")

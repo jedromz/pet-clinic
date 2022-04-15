@@ -1,8 +1,8 @@
 package com.jedromz.petclinic.service.implementation;
 
 import com.jedromz.petclinic.model.VisitToken;
-import com.jedromz.petclinic.repository.VisitRepository;
 import com.jedromz.petclinic.repository.VisitTokenRepository;
+import com.jedromz.petclinic.service.VisitTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

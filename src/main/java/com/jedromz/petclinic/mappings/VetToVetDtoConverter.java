@@ -17,8 +17,8 @@ public class VetToVetDtoConverter implements Converter<Vet, VetDto> {
         Vet vet = mappingContext.getSource();
         VetDto vetDto = VetDto.builder()
                 .id(vet.getId())
-                .firstName(vet.getFirstName())
-                .lastName(vet.getLastName())
+                .firstName(vet.getFirstname())
+                .lastName(vet.getLastname())
                 .petSpecialization(vet.getPetSpecialization())
                 .specialization(vet.getSpecialization())
                 .rate(vet.getRate())

@@ -18,8 +18,8 @@ public class Vet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String specialization;
     private String petSpecialization;
     private BigDecimal rate;
@@ -32,19 +32,13 @@ public class Vet {
     private int version;
 
     @Builder
-    public Vet(String firstName, String lastName, String specialization, String petSpecialization, BigDecimal rate, String nip, boolean isFired) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Vet(String firstname, String lastName, String specialization, String petSpecialization, BigDecimal rate, String nip, boolean isFired) {
+        this.firstname = firstname;
+        this.lastname = lastName;
         this.specialization = specialization;
         this.petSpecialization = petSpecialization;
         this.rate = rate;
         this.nip = nip;
         this.isFired = isFired;
-    }
-
-    public boolean isFree(LocalDateTime dateTime) {
-        return getVisits().stream()
-                .map(Visit::getDateTime)
-                .anyMatch(visitTime -> visitTime.isEqual(dateTime));
     }
 }

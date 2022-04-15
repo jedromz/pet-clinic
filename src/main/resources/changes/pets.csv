@@ -1,0 +1,11 @@
+id,pet_name,type  ,birthdate ,race   ,owner_email      ,owner_name,version
+1 ,rasco   ,dog   ,2000-12-31,coondel,john@smith.com   ,john      ,0
+2 ,bambo   ,cat   ,2008-11-02,egyptian,ann@smith.com    ,ann       ,0
+3 ,rex     ,parrot,2011-09-11,ara,greg@blue.com    ,greg      ,0
+4 ,fluffy  ,cat   ,2012-06-15,persian,matt@doe.com     ,matt      ,0
+5 ,mietek  ,monkey,2020-02-20,gorilla,maya@green.com   ,maya      ,0
+6 ,latka   ,horse ,2003-01-15,arabic,alex@black.com   ,alex      ,0
+7 ,bob     ,dog   ,2001-10-22,york,julia@red.com    ,julia     ,0
+8 ,richard ,fish  ,2012-05-03,goldfish,olivia@orange.com,olvia     ,0
+9 ,chester ,horse ,2019-12-03,haflinger,will@blue.com    ,will      ,0
+10,lolo    ,parrot,2005-10-20,african,john@doe.com     ,john      ,0

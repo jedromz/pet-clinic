@@ -35,9 +35,6 @@ public class Visit {
 
     @Builder
     public Visit(LocalDateTime dateTime, Vet vet, Pet pet) {
-        if (vet.isFree(dateTime) || pet.isAppointed(dateTime)) {
-            throw new ScheduleConflictException();
-        }
         this.dateTime = dateTime;
         this.vet = vet;
         this.pet = pet;
@@ -45,11 +42,4 @@ public class Visit {
         pet.getVisits().add(this);
 
     }
-
-    private boolean isFree(LocalDateTime dateTime, Vet vet) {
-        return vet.getVisits().stream()
-                .map(Visit::getDateTime)
-                .anyMatch(visitTime -> visitTime.isEqual(dateTime));
-    }
-
 }

@@ -70,8 +70,8 @@ public class VisitControllerTest {
     @Test
     void shouldGetSingleVisit() throws Exception {
         //given
-        Pet newPet = Pet.builder().petName("TEST_NAME").birthDate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
-        Vet newVet = Vet.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
+        Pet newPet = Pet.builder().petName("TEST_NAME").birthdate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
+        Vet newVet = Vet.builder().firstname("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
         Vet savedVet = vetService.save(newVet);
         Pet savedPet = petService.save(newPet);
         Visit newVisit = new Visit(LocalDateTime.now().plusDays(1), savedVet, savedPet);
@@ -104,8 +104,8 @@ public class VisitControllerTest {
         LocalDateTime dateTime = LocalDateTime.now().plusDays(1);
         dateTime.format(FORMATTER);
 
-        Pet newPet = Pet.builder().petName("TEST_NAME").birthDate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
-        Vet newVet = Vet.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
+        Pet newPet = Pet.builder().petName("TEST_NAME").birthdate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
+        Vet newVet = Vet.builder().firstname("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
         Vet savedVet = vetService.save(newVet);
         Pet savedPet = petService.save(newPet);
 
@@ -139,8 +139,8 @@ public class VisitControllerTest {
         //given
         LocalDateTime dateTime = LocalDateTime.now().plusDays(1);
         dateTime.format(FORMATTER);
-        Pet newPet = Pet.builder().petName("TEST_NAME").birthDate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
-        Vet newVet = Vet.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
+        Pet newPet = Pet.builder().petName("TEST_NAME").birthdate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
+        Vet newVet = Vet.builder().firstname("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
         Pet savedPet = petService.save(newPet);
         Vet savedVet = vetService.save(newVet);
         CreateVisitCommand command = CreateVisitCommand.builder()
@@ -181,8 +181,8 @@ public class VisitControllerTest {
     @Test
     void shouldDeleteVisitById() throws Exception {
         //given
-        Pet newPet = Pet.builder().petName("TEST_NAME").birthDate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
-        Vet newVet = Vet.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
+        Pet newPet = Pet.builder().petName("TEST_NAME").birthdate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
+        Vet newVet = Vet.builder().firstname("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
         Vet savedVet = vetService.save(newVet);
         Pet savedPet = petService.save(newPet);
         Visit newVisit = new Visit(LocalDateTime.now().plusDays(1), savedVet, savedPet);
@@ -202,8 +202,8 @@ public class VisitControllerTest {
     @Test
     void shouldEditVisit() throws Exception {
         //given
-        Pet newPet = Pet.builder().petName("TEST_NAME").birthDate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
-        Vet newVet = Vet.builder().firstName("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
+        Pet newPet = Pet.builder().petName("TEST_NAME").birthdate(LocalDate.now().minusYears(10)).type("TEST_TYPE").race("TEST_RACE").ownerEmail("test@ownermail.com").build();
+        Vet newVet = Vet.builder().firstname("TEST_FIRSTNAME").lastName("TEST_LASTNAME").nip("1111111111").isFired(false).specialization("TEST_SPECIALIZATION").petSpecialization("TEST_PET_SPECIALIZATION").rate(BigDecimal.valueOf(100.99)).build();
         Vet savedVet = vetService.save(newVet);
         Pet savedPet = petService.save(newPet);
         Visit newVisit = new Visit(LocalDateTime.now().plusDays(1), savedVet, savedPet);

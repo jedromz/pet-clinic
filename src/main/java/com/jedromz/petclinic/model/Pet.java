@@ -24,7 +24,7 @@ public class Pet {
     private String type;
     private String race;
     @Past
-    private LocalDate birthDate;
+    private LocalDate birthdate;
     private String ownerName;
     @Email
     private String ownerEmail;
@@ -35,18 +35,12 @@ public class Pet {
     private int version;
 
     @Builder
-    public Pet(String petName, String type, String race, LocalDate birthDate, String ownerName, String ownerEmail) {
+    public Pet(String petName, String type, String race, LocalDate birthdate, String ownerName, String ownerEmail) {
         this.petName = petName;
         this.type = type;
         this.race = race;
-        this.birthDate = birthDate;
+        this.birthdate = birthdate;
         this.ownerName = ownerName;
         this.ownerEmail = ownerEmail;
-    }
-
-    public boolean isAppointed(LocalDateTime dateTime) {
-        return getVisits().stream()
-                .map(Visit::getDateTime)
-                .anyMatch(visitTime -> visitTime.isEqual(dateTime));
     }
 }

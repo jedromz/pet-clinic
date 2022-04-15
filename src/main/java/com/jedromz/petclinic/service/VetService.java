@@ -5,6 +5,8 @@ import com.jedromz.petclinic.model.command.UpdateVetCommand;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,4 +29,6 @@ public interface VetService {
     void saveVets(List<Vet> vets);
 
     void deleteAll();
+
+    boolean isAppointed(Vet vet, LocalDateTime dateTime);
 }

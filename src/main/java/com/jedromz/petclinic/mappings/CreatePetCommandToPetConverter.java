@@ -13,7 +13,7 @@ public class CreatePetCommandToPetConverter implements Converter<CreatePetComman
         CreatePetCommand command = mappingContext.getSource();
         Pet pet = Pet.builder()
                 .petName(command.getPetName())
-                .birthDate(command.getBirthDate())
+                .birthdate(command.getBirthDate())
                 .race(command.getRace())
                 .type(command.getType())
                 .ownerName(command.getOwnerName())

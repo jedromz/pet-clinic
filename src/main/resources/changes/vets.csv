@@ -1,0 +1,12 @@
+id,firstname,lastname,specialization,pet_specialization,rate,nip,is_fired,version
+1 ,john,black,cardiologist,dog,150 ,92934561341,false,0
+2 ,joe,green,laryngologist,cat,220 ,98746571234,false,0
+3 ,jannet,blue,surgeon,parrot,300 ,94410348913,false,0
+4 ,alex,yellow,cardiologist,hamster,180 ,95065814323,false,0
+5 ,george,red,psychologist,horse,270 ,98395398942,false,0
+6 ,wanda,pink,surgeon,dogs,155 ,94289489123,false,0
+7 ,luck,purple,laryngologist,dogs,300,99123913123,false,0
+8 ,aneta,white,cardiologist,dogs,100,93893583432,false,0
+9 ,julia,brown,psychologist,dogs,285,90886646267,false,0
+
+

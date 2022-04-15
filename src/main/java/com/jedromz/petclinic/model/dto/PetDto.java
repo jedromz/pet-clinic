@@ -11,7 +11,6 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class PetDto extends RepresentationModel<PetDto> {
-
     private long id;
     private String petName;
     private String type;

@@ -14,7 +14,6 @@ public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, St
 
     private final PetService petService;
 
-
     @Override
     public boolean isValid(String email, ConstraintValidatorContext constraintValidatorContext) {
         return !petService.existsByEmail(email);

@@ -1,12 +1,10 @@
 package com.jedromz.petclinic.service.implementation;
 
-import com.jedromz.petclinic.config.EmailConfiguration;
-import com.jedromz.petclinic.model.NotificationEmail;
+import com.jedromz.petclinic.model.dto.NotificationEmail;
 import com.jedromz.petclinic.service.MailService;
 import lombok.AllArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +24,4 @@ class MailServiceImpl implements MailService {
 
         mailSender.send(mailMessage);
     }
-
-
 }
