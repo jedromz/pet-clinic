@@ -16,6 +16,7 @@ public class PetDto extends RepresentationModel<PetDto> {
     private String type;
     private String race;
     private LocalDate birthDate;
+    private int age;
     private String ownerName;
     private String ownerEmail;
     private int version;

@@ -24,6 +24,7 @@ public class PetToPetDtoConverter implements Converter<Pet, PetDto> {
                 .type(pet.getType())
                 .race(pet.getRace())
                 .birthDate(pet.getBirthdate())
+                .age(pet.age())
                 .ownerEmail(pet.getOwnerEmail())
                 .ownerName(pet.getOwnerName())
                 .version(pet.getVersion())

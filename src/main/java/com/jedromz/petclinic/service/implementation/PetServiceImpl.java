@@ -27,6 +27,10 @@ public class PetServiceImpl implements PetService {
     public Page<Pet> findAll(Pageable pageable) {
         return petRepository.findAll(pageable);
     }
+    @Transactional(readOnly = true)
+    public List<Pet> findAll() {
+        return petRepository.findAll();
+    }
 
     @Transactional(readOnly = true)
     public Optional<Pet> findById(Long id) {

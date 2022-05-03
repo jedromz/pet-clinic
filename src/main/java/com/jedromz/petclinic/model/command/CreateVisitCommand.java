@@ -3,9 +3,7 @@ package com.jedromz.petclinic.model.command;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.jedromz.petclinic.validation.annotation.FullHour;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 
@@ -16,6 +14,8 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CreateVisitCommand {
     @NotNull(message = "DATETIME_NOT_NULL")

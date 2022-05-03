@@ -1,11 +1,15 @@
 package com.jedromz.petclinic.model.command;
 
-import lombok.Value;
+import lombok.*;
 import org.springframework.lang.Nullable;
 
 import java.time.LocalDateTime;
 
-@Value
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CheckVisitsCommand {
     @Nullable
     private LocalDateTime fromDate;

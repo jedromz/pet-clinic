@@ -7,6 +7,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -42,5 +43,9 @@ public class Pet {
         this.birthdate = birthdate;
         this.ownerName = ownerName;
         this.ownerEmail = ownerEmail;
+    }
+
+    public int age(){
+        return Period.between(birthdate,LocalDate.now()).getYears();
     }
 }

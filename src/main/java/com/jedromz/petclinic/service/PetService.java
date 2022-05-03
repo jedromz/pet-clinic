@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface PetService {
 
     Page<Pet> findAll(Pageable pageable);
+    List<Pet> findAll();
 
     Optional<Pet> findById(Long id);
 

@@ -1,6 +1,8 @@
 package com.jedromz.petclinic.error;
 
+import com.jedromz.petclinic.error.constraint.ConstraintErrorHandler;
 import lombok.Value;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -8,12 +10,23 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
+
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    private final Map<String, ConstraintErrorHandler> constraintsMap;
+
+    public GlobalExceptionHandler(Set<ConstraintErrorHandler> handlers) {
+        this.constraintsMap = handlers.stream()
+                .collect(Collectors.toMap(ConstraintErrorHandler::constraintName, Function.identity()));
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException exc) {
@@ -37,27 +50,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity handleConstraintViolationException(ConstraintViolationException exc) {
-        //String constraintName = exc.getConstraintName().substring(1, exc.getConstraintName().indexOf(" "));
-        String message = null;
-        String field = null;
-        //if ("UC_STUDENT_EMAIL".equals(constraintName)) {
-        message = "EMIAL_NOT_UNIQUE";
-        field = "email";
-        //}
-        //TODO: jakis fajny mechnizm konfiguracyjny dla pozyskania informacji o message i polu ktorego dotyczy constraint name.
-        return new ResponseEntity(new ValidationErrorDto(message, field), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(org.hibernate.exception.ConstraintViolationException.class)
-    public ResponseEntity handleConstraintViolationException(org.hibernate.exception.ConstraintViolationException exc) {
         String constraintName = exc.getConstraintName().substring(1, exc.getConstraintName().indexOf(" "));
-        String message = null;
-        String field = null;
-        if ("UC_STUDENT_EMAIL".equals(constraintName)) {
-            message = "EMIAL_NOT_UNIQUE";
-            field = "email";
-        }
-        //TODO: jakis fajny mechnizm konfiguracyjny dla pozyskania informacji o message i polu ktorego dotyczy constraint name.
+        String message = constraintsMap.get(constraintName).message();
+        String field = constraintsMap.get(constraintName).field();
         return new ResponseEntity(new ValidationErrorDto(message, field), HttpStatus.BAD_REQUEST);
     }
 

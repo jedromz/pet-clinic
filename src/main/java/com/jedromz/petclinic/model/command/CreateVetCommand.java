@@ -1,9 +1,7 @@
 package com.jedromz.petclinic.model.command;
 
 import com.jedromz.petclinic.validation.annotation.UniqueNip;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,6 +9,8 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class CreateVetCommand {
     @NotNull(message = "FIRSTNAME_NOT_NULL")
